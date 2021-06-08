@@ -49,6 +49,11 @@ set up app structure with public and src folders
 update config `mount` section to match  
 [snowpack-website-example](https://www.snowpack.dev/tutorials/svelte)
 
+TODO: try using images and see if they move from public to build properly
+TODO: get css to build in same src/dist output file path
+TODO: might want to move both css and images to an assets folder in /src so it builds properly to full path
+TODO: get src/dist to minify js
+
 <br>
 
 environment variables
