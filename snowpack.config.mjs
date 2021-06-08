@@ -5,6 +5,7 @@ export default {
   },
   plugins: [
     '@snowpack/plugin-svelte',
+    '@snowpack/plugin-webpack',
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -21,6 +22,6 @@ export default {
     /* ... */
   },
   buildOptions: {
-    /* ... */
+    baseUrl: '/svelte/test/build/'
   },
 };
