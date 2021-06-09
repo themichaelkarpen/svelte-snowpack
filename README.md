@@ -45,25 +45,61 @@ update `snowpack.config.mjs` with `'@snowpack/plugin-webpack',` in plugins
 
 <br>
 
-set up app structure with public and src folders  
-update config `mount` section to match  
-[snowpack-website-example](https://www.snowpack.dev/tutorials/svelte)
-
-TODO: try using images and see if they move from public to build properly
-TODO: get css to build in same src/dist output file path
-TODO: might want to move both css and images to an assets folder in /src so it builds properly to full path
-TODO: get src/dist to minify js
+- set up app structure with public and src folders
+- update config `mount` section to match
+- [snowpack-website-example](https://www.snowpack.dev/tutorials/svelte)
 
 <br>
 
-environment variables
+**production builds**
+
+Using `plugin-webpack` works except for the favicon. I don't like how all the svelte components get built into the directory though. It's bloated with many files, and not sure they are all needed.
+
+Tried using native Snowpack with `optimize` object - and not the `plugin-webpack`. Visually this looks better, however it does not work on a production server with a non-root file path.
+
+_Conclusion:_
+
+- I much prefer Vite right now. My only blocker is I need `svelte-router-spa` to work in dev mode in Vite. It works with a production build but not in dev.
+- Vite also seems faster and easier to use. Documentation is better as well.
+
+<br>
+
+**other items to experiment with**
+
+see how `svelte-router-spa` works in dev and production
+
+environment variables  
 https://www.snowpack.dev/reference/configuration#env
 https://www.snowpack.dev/reference/environment-variables
 
-configure builds (vs dev)
-https://www.snowpack.dev/reference/configuration#buildoptions.baseurl
-https://github.com/snowpackjs/snowpack/discussions/2674
+hostname, ports, routes and proxy
+https://www.snowpack.dev/reference/configuration#devoptions.hostname
+https://www.snowpack.dev/guides/routing#scenario-1-spa-fallback-paths
 
-hostname: https://www.snowpack.dev/reference/configuration#devoptions.hostname
+```
 devOptions.hostname
 devOptions.port
+```
+
+```js
+// snowpack.config.mjs
+import proxy from 'http2-proxy';
+
+export default {
+  routes: [
+    {
+      src: '/api/.*',
+      dest: (req, res) => {
+        // remove /api prefix (optional)
+        req.url = req.url.replace(/^/api/, '');
+
+        return proxy.web(req, res, {
+          hostname: 'localhost',
+          port: 3001,
+        });
+      },
+    },
+  ],
+};
+
+```

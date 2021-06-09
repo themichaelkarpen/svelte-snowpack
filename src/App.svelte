@@ -1,5 +1,5 @@
 <script>
-  /* component logic will go here */
+  import logo from "/svelte.png";
 </script>
 
 <div class="App">
@@ -10,6 +10,7 @@
       target="_blank"
       rel="noopener noreferrer"
     >
+      <img src={logo} alt="Svelte" /><br />
       Learn Svelte
     </a>
   </header>
